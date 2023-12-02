@@ -1,23 +1,42 @@
 import Image from "next/image";
+import { MotionDiv } from "./MotionDiv";
 
 
 export interface WizardCardProps {
+    id: number;
     name: string;
     image: string;
     species: string;
-    House: string;
-    Job: string;
+    house: string;
+    job: string;
 }
 
 
 interface Prop {
     wizard: WizardCardProps;
+    index: number;
 }
 
+const variants = {
+    hidden: { opacity: 0, },
+    visible: { opacity: 1, },
+}
 
-const WizardCard = ({ wizard }: Prop) => {
+const WizardCard = ({ wizard, index }: Prop) => {
     return (
-        <div className="max-w-sm rounded relative w-full">
+        <MotionDiv
+            variants={variants}
+            initial="hidden"
+            animate="visible"
+            transition={{
+                delay: index * 0.25,
+                ease: 'easeInOut',
+                duration: 0.5
+            }}
+            viewport={{ amount: 0 }}
+
+            className="max-w-sm rounded relative w-full"
+        >
             <div className="relative w-full h-[37vh]">
                 <Image src={wizard.image}
                     alt={wizard.name}
@@ -39,24 +58,16 @@ const WizardCard = ({ wizard }: Prop) => {
                 </div>
                 <div className="flex justify-between items-center gap-1">
                     <h2 className="font-bold text-slate-400 text-lg line-clamp-1 w-full">
-                        {wizard.House}
+                        {wizard.house}
                     </h2>
                     <div className="py-1 px-2 rounded-sm bg-[#161921]">
                         <p className="text-white text-sm font-bold capitalize">
-                            {wizard.Job}
+                            {wizard.job}
                         </p>
                     </div>
                 </div>
-
-
-
-
-
             </div>
-
-
-
-        </div>
+        </MotionDiv>
     );
 }
 
